@@ -13,7 +13,7 @@
     <div class="alert" role="alert" style="display: none;" id="message"></div>
     <div class="jumbotron" style="margin: 20px auto; max-width: 720px;">
       <h1>Stellar "mining" pool</h1>
-      <p><a href="">More information here</a></p>
+      <p><a href="https://forum.stellar.org/t/join-str-mining-pool/2575">More information here</a></p>
       <form class="form-horizontal" method="post" id="form">
         <div class="form-group">
           <label for="account" class="col-sm-2 control-label">Account</label>
@@ -44,7 +44,7 @@
           function(data) {
             if(data.result.status == "success") {
               $("#message").addClass("alert-success").html("You successfully joined the pool from account "+$("input[name=account]").val().trim()).show();
-              $.cookie("accounts", old+", "+$("input[name=account]").val().trim());
+              $.cookie("accounts", old+" "+$("input[name=account]").val().trim());
             } else {
               $("#message").addClass("alert-danger").html("Error occured, check your account address and secret key, if everything correct - let me know about the problem to s@umbrellab.com").show();
               console.log(data);
