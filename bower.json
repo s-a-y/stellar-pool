@@ -1,0 +1,27 @@
+{
+  "name": "stellar-pool",
+  "version": "0.0.1",
+  "description": "Collaborative pool to acquire some stellars",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "authors": [
+    "umbrel"
+  ],
+  "license": "MIT",
+  "homepage": "homepage",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "jquery-cookie": "~1.4.1",
+    "jquery": "~2.1.1"
+  }
+}

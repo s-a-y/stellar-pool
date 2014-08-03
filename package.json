@@ -1,0 +1,15 @@
+{
+  "name": "com.umbrellab.stellar-pool",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "connect": "*",
+    "serve-static": "*"
+  },
+  "devDependencies": {
+    "bower": "^1.3.7"
+  }
+}
