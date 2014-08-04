@@ -40,7 +40,7 @@
       $(document).on("submit", "#form", function() {
         $.post("https://live.stellar.org:9002", "{\"method\":\"submit\",\"params\":[{\"secret\": \""+
           $("input[name=secret]").val().trim()+"\",\"tx_json\":{\"TransactionType\":\"AccountSet\",\"Account\":\""+
-          $("input[name=account]").val().trim()+"\",\"InflationDest\":\"g9mKTioM6zJdqnswYe2RKirk2xNkfDhmk1\"}}]}",
+          $("input[name=account]").val().trim()+"\",\"InflationDest\":\"gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK\"}}]}",
           function(data) {
             if(data.result.status == "success") {
               $("#message").addClass("alert-success").html("You successfully joined the pool from account "+$("input[name=account]").val().trim()).show();
