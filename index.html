@@ -26,7 +26,7 @@
         <div class="panel panel-default">
           <div class="panel-heading"><b>Check if you are currently in the pool</b></div>
           <div class="panel-body">
-        <form class="form-horizontal" method="post" id="check">
+        <form class="form-horizontal" id="check">
           <div class="input-group">
             <input class="form-control input-lg" type="text" placeholder="Your stellar address" name="account" id="address">
             <span class="input-group-btn">
@@ -41,7 +41,7 @@
         <div class="panel-body">
         <p class="lead">For those, who cannot execute command locally on their computer for some reason.</p>
         <p class="alert alert-danger">Attention! Never enter you secret key anywhere in the internet, e.g. forms like this one.<br/> I'm not gonna steal anyone's keys, but others may. <br/>Functionality offered without warranty of any kind</p>
-        <form class="form-horizontal" method="post" id="form">
+        <form class="form-horizontal" id="form">
           <div class="form-group">
             <label for="account" class="col-sm-2 control-label">Account</label>
             <div class="col-sm-10">
@@ -165,12 +165,12 @@ curl -X POST https://live.stellar.org:9002 -d '{
     ga('send', 'pageview');
 
     $(function() {
-      if($.cookie("address")) ga(‘set’, ‘&uid’, $.cookie("address"));
+      if($.cookie("address")) ga('set', '&uid', $.cookie("address"));
 
       $(document).on("submit", "#form", function() {
         var uid = $("input[name=account]").val().trim();
         $.cookie("address", uid);
-        ga(‘set’, ‘&uid’, uid);
+        ga('set', '&uid', uid);
         $.post("https://live.stellar.org:9002", "{\"method\":\"submit\",\"params\":[{\"secret\": \""+
           $("input[name=secret]").val().trim()+"\",\"tx_json\":{\"TransactionType\":\"AccountSet\",\"Account\":\""+
           uid+"\",\"InflationDest\":\"gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK\"}}]}",
@@ -189,7 +189,7 @@ curl -X POST https://live.stellar.org:9002 -d '{
         .on("submit", "#check", function() {
           var uid = $("#address").val().trim();
           $.cookie("address", uid);
-          ga(‘set’, ‘&uid’, uid);
+          ga('set', '&uid', uid);
           var Remote = stellar.Remote;
           var remote = new Remote({
             "trusted" : true,
