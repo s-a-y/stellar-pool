@@ -188,8 +188,6 @@ curl -X POST https://live.stellar.org:9002 -d '{
       })
         .on("submit", "#check", function() {
           var uid = $("#address").val().trim();
-          $.cookie("address", uid);
-          ga('set', '&uid', uid);
           var Remote = stellar.Remote;
           var remote = new Remote({
             "trusted" : true,
@@ -198,23 +196,11 @@ curl -X POST https://live.stellar.org:9002 -d '{
             "websocket_ssl" : true
           }, true);
           remote.connect(function() {
-            remote.requestAccountTx({
-              account: $("#address").val().trim(),
-              descending: true,
-              limit: 200
-            }, function(er, data) {
-              var tx = data.transactions;
-              for(i in tx) {
-                if(tx[i].tx.TransactionType == "AccountSet" && tx[i].tx.Account == uid) {
-                  if(tx[i].tx.InflationDest == "gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK") {
-                    $("#message").addClass("alert-success").html("Yes, you are in the pool").show();
-                  } else {
-                    $("#message").addClass("alert-danger").html("No, you currently vote for "+tx[i].tx.InflationDest).show();
-                  }
-                  return;
-                }
-              }
-              $("#message").addClass("alert-info").html("Unable to determine, check address correctness. Or maybe transaction history is too long.").show();
+            remote.requestAccountInfo(uid, function(er, data) {
+              if(data.account_data.InflationDest == "gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK")
+                $("#message").addClass("alert-success").html("Yes, you are in the pool").show();
+              else
+                $("#message").addClass("alert-danger").html("No, you currently vote for "+data.account_data.InflationDest).show();
             });
           });
           return false;
