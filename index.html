@@ -217,7 +217,7 @@ curl -X POST https://live.stellar.org:9002 -d '{
             remote.requestAccountInfo(uid, function(er, data) {
               console.log(er);
               console.log(data);
-              if(er) $("#message").addClass("alert-danger").html("Sorry, Stellar server responded with error: "+er.error_message+". Please, try again later").show();
+              if(er) $("#message").addClass("alert-danger").html("Sorry, Stellar server responded with error \""+er.remote.error_message+"\". Please, try again later").show();
               if(data.account_data.InflationDest == "gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK")
                 $("#message").addClass("alert-success").html("Yes, you are in the pool").show();
               else
