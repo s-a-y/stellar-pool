@@ -22,20 +22,6 @@
       </div>
 
 
-        <div class="panel panel-default">
-          <div class="panel-heading"><b>Check if you are currently in the pool</b></div>
-          <div class="panel-body">
-        <form class="form-horizontal" id="check">
-          <div class="input-group">
-            <input class="form-control input-lg" type="text" placeholder="Your stellar address" name="account" id="address">
-            <span class="input-group-btn">
-              <button class="btn btn-lg btn-primary" type="submit">Check</button>
-            </span>
-          </div>
-        </form>
-          </div>
-        </div>
-
       <div class="panel panel-default">
         <div class="panel-body">
           <!-- Begin MailChimp Signup Form -->
@@ -71,45 +57,23 @@
           <!--End mc_embed_signup-->
         </div>
       </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading"><b>Join pool</b></div>
-        <div class="panel-body">
-        <p class="lead">For those, who cannot execute command locally on their computer for some reason.</p>
-        <p class="alert alert-danger">Attention! Never enter you secret key anywhere in the internet, e.g. forms like this one.<br/> I'm not gonna steal anyone's keys, but others may. <br/>Functionality offered without warranty of any kind</p>
-        <form class="form-horizontal" id="form">
-          <div class="form-group">
-            <label for="account" class="col-sm-2 control-label">Account</label>
-            <div class="col-sm-10">
-              <input class="form-control" type="text" placeholder="Your stellar address" name="account" id="account">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="secret" class="col-sm-2 control-label">Secret</label>
-            <div class="col-sm-10">
-              <input class="form-control" type="password" placeholder="Your stellar secret" name="secret" id="secret">
-            </div>
-          </div>
-          <button class="btn btn-lg btn-success" type="submit">Join us!</button>
-        </form>
-        </div>
-      </div>
-      </div>
-    <div class="col-sm-6 col-xs-12" style="margin-top: 20px;">
-      <div class="panel panel-default">
-        <div class="panel-heading"><b>Some stats (not real time, calculated August 20, 2014)</b></div>
-        <div class="panel-body">
-          <p><b>Total pool members:</b> 500</p>
-          <p><b>Pool voting power:</b> 7.5 mln votes</p>
-          <p><b>Number of members, who left the pool after joining it:</b> 2</p>
-        </div>
-      </div>
       <div class="panel panel-default">
         <div class="panel-heading"><b>Latest news</b></div>
         <div class="panel-body">
           <a href="http://eepurl.com/1rawD">First email campaign sent</a>
         </div>
       </div>
+      </div>
+    <div class="col-sm-6 col-xs-12" style="margin-top: 20px;">
+      <div class="panel panel-default">
+        <div class="panel-heading"><b>Some stats (not real time, calculated September 13, 2014)</b></div>
+        <div class="panel-body">
+          <p><b>Total pool members:</b> 525</p>
+          <p><b>Pool voting power:</b> 87.5 mln votes</p>
+          <p><b>Number of members, who left the pool after joining it:</b> 2</p>
+        </div>
+      </div>
+
       <h3>FAQ</h3>
       <div class="panel-group" id="accordion">
         <div class="panel panel-default">
@@ -138,27 +102,10 @@
           </div>
           <div id="collapseOnePointHalf" class="panel-collapse collapse">
             <div class="panel-body">
-              Recommended way to join the pool is to run console command on your computer
-              <pre>
-curl -X POST https://live.stellar.org:9002 -d '{
-  "method": "submit",
-  "params": [{
-    "secret": "Your secret goes here",
-    "tx_json": {
-      "Account": "You address goes here",
-      "InflationDest": "gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK",
-      "TransactionType": "AccountSet"
-    }
-  }]
-}'</pre>
-              <p>You can find your address inside the wallet client if you go to "Receive" -> "Show your Stellar address"
-              To find secret click to your username in top-right corner and there in the settings "Reveal" your secret key.</p>
-
-              <p>To execute it on windows, you may need to install Git: http://git-scm.com/download/win
-              and then open PowerShell console to run the command. (maybe escape every quotes with backslash, like \"method\": \"submit\"...)</p>
-
-              <div class="alert alert-info">If you are not a technical person - just use the form "Join the pool" on this page.
-                However it's not recommended, because it requires your secret key - information which you should keep private and never share with anyone in the internet</div>
+              To join simply login to official Stellar client, go to "Settings" by clicking your username in top-right corner.
+              Then choose "change inflation destination". Put pool address
+              <pre>gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK</pre>
+              into the field and press "set".
             </div>
           </div>
         </div>
@@ -245,49 +192,6 @@ curl -X POST https://live.stellar.org:9002 -d '{
 
     $(function() {
       if($.cookie("address")) ga('set', '&uid', $.cookie("address"));
-
-      $(document).on("submit", "#form", function() {
-        var uid = $("input[name=account]").val().trim();
-        $.cookie("address", uid);
-        ga('set', '&uid', uid);
-        $.post("https://live.stellar.org:9002", "{\"method\":\"submit\",\"params\":[{\"secret\": \""+
-          $("input[name=secret]").val().trim()+"\",\"tx_json\":{\"TransactionType\":\"AccountSet\",\"Account\":\""+
-          uid+"\",\"InflationDest\":\"gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK\"}}]}",
-          function(data) {
-            if(data.result.status == "success") {
-              $("#message").addClass("alert-success").html("You successfully joined the pool from account "+uid).show();
-
-            } else {
-              $("#message").addClass("alert-danger").html("Error occured, check your account address and secret key, if everything correct - let me know about the problem to s@umbrellab.com").show();
-              console.log(data);
-            }
-          }, "json"
-        );
-        return false;
-      })
-        .on("submit", "#check", function() {
-          var uid = $("#address").val().trim();
-          var Remote = stellar.Remote;
-          var remote = new Remote({
-            "trusted" : true,
-            "websocket_ip" : "live.stellar.org",
-            "websocket_port" : 9001,
-            "websocket_ssl" : true
-          }, true);
-          remote.connect(function() {
-            remote.requestAccountInfo(uid, function(er, data) {
-              console.log(er);
-              console.log(data);
-              if(er) $("#message").addClass("alert-danger").html("Sorry, Stellar server responded with error \""+er.remote.error_message+"\". Please, try again later").show();
-              if(data.account_data.InflationDest == "gaj43wzt5XD8fz6JfbnaVQsewLtdfU5cFK")
-                $("#message").addClass("alert-success").html("Yes, you are in the pool").show();
-              else
-                $("#message").addClass("alert-danger").html("No, you currently vote for "+data.account_data.InflationDest).show();
-            });
-          });
-          return false;
-        });
-
     });
   </script>
   </body>
